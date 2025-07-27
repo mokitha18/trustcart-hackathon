@@ -32,7 +32,7 @@ TrustCart provides a user-friendly platform where:
 
 ## 🌐 Live Demo
 
-[🔗 TrustCart Live Website](https://superb-dasik-76f95f.netlify.app)
+[🔗 TrustCart Live Website](https://superb-dasik-76f95f.netlify.app/)
 
 ---
 
