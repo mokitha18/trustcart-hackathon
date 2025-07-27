@@ -1,0 +1,186 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4d7db !important; /* solid pastel pink background */
+    color: #2f2f2f;
+    margin: 0;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  h2 {
+    text-align: center;
+    color: #3a3a3a;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+
+  #search {
+    display: block;
+    margin: 0 auto 2rem;
+    padding: 0.75rem 1rem;
+    width: 300px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    background-color: #fff;
+    outline: none;
+  }
+
+  #search::placeholder {
+    color: #999;
+  }
+
+  .supplier-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .card {
+    background-color: #fdfdfd; /* soft neutral card background */
+    border-radius: 20px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    width: 260px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+  }
+
+  .card h3 {
+    color: #333;
+    margin: 0.5rem 0 0.2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .card p {
+    font-size: 0.95rem;
+    color: #555;
+    margin: 0.2rem 0;
+  }
+
+  button {
+    background-color: #2f2f2f;
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 0.7rem;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #3e3e3e;
+  }
+  
+  /* Login Page Specific */
+#username {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 260px;
+  margin-bottom: 1rem;
+  outline: none;
+  
+}
+
+.login-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 260px;
+  text-align: center;
+}
+/* Welcome Page Styling */
+/* Updated Pastel Theme for Welcome Page */
+body {
+  background-color: #fce4ec; /* pastel pink */
+  font-family: 'Poppins', sans-serif;
+  color: #2f2f2f;
+  margin: 0;
+  padding: 2rem;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #2f2f2f;
+  margin-top: 3rem;
+  font-weight: 600;
+}
+
+p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 2.5rem;
+}
+
+/* Pastel Buttons */
+.btn {
+  display: block;
+  text-align: center;
+  width: 260px;
+  margin: 0.8rem auto;
+  padding: 0.85rem 1.2rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  border-radius: 14px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Login - Muted Green */
+.btn {
+  background-color: #2f2f2f;
+  color: #fff;
+}
+.btn:hover {
+  background-color:#3e3e3e;
+}
+
+/* Skip Login - Soft Gray */
+.btn.secondary {
+  background-color: #2f2f2f;
+  color:white;
+}
+.btn.secondary:hover {
+  background-color: #3e3e3e;
+}
+
+/* Register - Pastel Rose */
+.btn.register {
+  background-color: #2f2f2f;
+  color: #fff;
+}
+.btn.register:hover {
+  background-color:#3e3e3e;
+}
+
+
+
+
+

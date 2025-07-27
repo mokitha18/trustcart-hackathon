@@ -1,0 +1,25 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login - TrustCart</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Vendor Login</h2>
+  <input type="text" id="username" placeholder="Enter name" />
+  <button onclick="login()">Login</button>
+
+  <script>
+    function login() {
+      const user = document.getElementById('username').value;
+      if(user) {
+        alert("Welcome, " + user);
+        window.location.href = "dashboard.html";
+      } else {
+        alert("Enter your name");
+      }
+    }
+  </script>
+</body>
+</html>

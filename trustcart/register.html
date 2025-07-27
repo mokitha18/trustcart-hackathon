@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register New Supplier - TrustCart</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #fcd7c3, #e4c6f3);
+      padding: 40px;
+    }
+    .form-container {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #6c63ff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #574fd6;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <h2>Register New Supplier</h2>
+  <form id="supplierForm">
+    <input type="text" id="name" placeholder="Supplier Name" required />
+    <input type="text" id="phone" placeholder="Mobile Number" required />
+    <input type="text" id="location" placeholder="Location" required />
+    <textarea id="products" placeholder="Products Offered (comma-separated)" required></textarea>
+    <input type="text" id="image" placeholder="Image (Paste link here)" />
+    <input type="number" id="rating" placeholder="Rating (1-5)" min="1" max="5" required />
+    <button type="submit">Add Supplier</button>
+  </form>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCUYkH8-9EFzRizNL1FO1-XO67ZXViFZ40",
+    authDomain: "trustcart-f8a6d.firebaseapp.com",
+    projectId: "trustcart-f8a6d",
+    storageBucket: "trustcart-f8a6d.appspot.com",
+    messagingSenderId: "754055806981",
+    appId: "1:754055806981:web:f933898cf903b8ba1e1c6c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  document.getElementById("supplierForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const location = document.getElementById("location").value.trim();
+    const products = document.getElementById("products").value.trim();
+    const image = document.getElementById("image").value.trim();
+    const rating = parseFloat(document.getElementById("rating").value);
+
+    if (!name || !phone || !location || !products || isNaN(rating) || rating < 1 || rating > 5) {
+      alert("Please fill in all required fields with valid data.");
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "suppliers"), {
+        name,
+        phone,
+        location,
+        products,
+        image,
+        rating,
+        reviews: [] // initialize empty reviews array
+      });
+
+      alert("Supplier registered successfully!");
+      document.getElementById("supplierForm").reset();
+    } catch (error) {
+      console.error("Error adding supplier:", error);
+      alert("Failed to register supplier.");
+    }
+  });
+</script>
+
+</body>
+</html>

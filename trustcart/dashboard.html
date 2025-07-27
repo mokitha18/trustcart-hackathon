@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Supplier Dashboard - TrustCart</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .card {
+      border: 1px solid #ddd;
+      padding: 1rem;
+      margin: 1rem;
+      width: 250px;
+      display: inline-block;
+      vertical-align: top;
+      cursor: pointer;
+    }
+
+    .supplier-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    textarea {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    button {
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>Verified Suppliers Near You</h2>
+
+  <input type="text" id="search" placeholder="Search by name, location, or products">
+
+  <div id="suppliers" class="supplier-container">
+    <!-- Supplier cards will appear here -->
+  </div>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCUYkH8-9EFzRizNL1FO1-XO67ZXViFZ40",
+    authDomain: "trustcart-f8a6d.firebaseapp.com",
+    projectId: "trustcart-f8a6d",
+    storageBucket: "trustcart-f8a6d.appspot.com",
+    messagingSenderId: "754055806981",
+    appId: "1:754055806981:web:f933898cf903b8ba1e1c6c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const supplierContainer = document.getElementById("suppliers");
+
+  // Load suppliers from Firestore
+  async function loadSuppliers() {
+    const snapshot = await getDocs(collection(db, "suppliers"));
+    supplierContainer.innerHTML = "";
+
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const id = docSnap.id;
+
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${data.image || 'default.jpg'}" width="100%" />
+        <h3>${data.name}</h3>
+        <p><strong>Location:</strong> ${data.location}</p>
+        <p><strong>Products:</strong> ${data.products}</p>
+        <p><strong>Rating:</strong> ⭐ ${data.rating}</p>
+        <p><strong>Phone:</strong> ${data.phone}</p>
+        <button onclick="window.location.href='reviews.html?id=${id}'">View Reviews</button>
+      `;
+
+      supplierContainer.appendChild(card);
+    });
+  }
+
+  // Search functionality
+  document.getElementById("search").addEventListener("input", (e) => {
+    const query = e.target.value.toLowerCase();
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(card => {
+      const name = card.querySelector("h3").textContent.toLowerCase();
+      const location = card.querySelector("p:nth-of-type(1)").textContent.toLowerCase();
+      const products = card.querySelector("p:nth-of-type(2)").textContent.toLowerCase();
+      const matches = name.includes(query) || location.includes(query) || products.includes(query);
+      card.style.display = matches ? "inline-block" : "none";
+    });
+  });
+
+  loadSuppliers();
+</script>
+
+  
+
+    loadSuppliers();
+  </script>
+</body>
+</html>

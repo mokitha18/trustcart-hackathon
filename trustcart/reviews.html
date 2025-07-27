@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Supplier Reviews - TrustCart</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      padding: 20px;
+    }
+
+    .review-section {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .review {
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+
+    .submit-section {
+      margin-top: 20px;
+    }
+
+    textarea,
+    input[type=number] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      border: none;
+      background-color: #0077cc;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="review-section">
+  <h2 id="supplierName">Supplier Reviews</h2>
+
+  <div id="allReviews"></div>
+
+  <div class="submit-section">
+    <h3>Write a Review</h3>
+    <form id="reviewForm">
+      <textarea id="reviewText" placeholder="Your review..." required></textarea>
+      <input type="number" id="reviewRating" min="1" max="5" placeholder="Rating (1 to 5)" required>
+      <button type="submit">Submit Review</button>
+    </form>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    updateDoc,
+    arrayUnion
+  } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCUYkH8-9EFzRizNL1FO1-XO67ZXViFZ40",
+    authDomain: "trustcart-f8a6d.firebaseapp.com",
+    projectId: "trustcart-f8a6d",
+    storageBucket: "trustcart-f8a6d.appspot.com",
+    messagingSenderId: "754055806981",
+    appId: "1:754055806981:web:f933898cf903b8ba1e1c6c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const supplierId = urlParams.get('id');
+  const supplierRef = doc(db, "suppliers", supplierId);
+
+  const reviewForm = document.getElementById("reviewForm");
+  const reviewList = document.getElementById("allReviews");
+  const supplierNameTitle = document.getElementById("supplierName");
+
+  async function loadSupplierDetails() {
+    const docSnap = await getDoc(supplierRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      supplierNameTitle.textContent = `Reviews for ${data.name}`;
+    }
+  }
+
+  async function loadReviews() {
+    const docSnap = await getDoc(supplierRef);
+    const data = docSnap.data();
+
+    reviewList.innerHTML = "";
+
+    if (!data.reviews || data.reviews.length === 0) {
+      reviewList.innerHTML = "<p>No reviews yet.</p>";
+      return;
+    }
+
+    data.reviews.slice().reverse().forEach(review => {
+      const reviewDiv = document.createElement("div");
+      reviewDiv.className = "review";
+      reviewDiv.innerHTML = `
+        <p><strong>⭐ ${review.rating}</strong></p>
+        <p>${review.text}</p>
+      `;
+      reviewList.appendChild(reviewDiv);
+    });
+  }
+
+  reviewForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const text = document.getElementById("reviewText").value.trim();
+  const rating = parseInt(document.getElementById("reviewRating").value);
+
+  if (!text || isNaN(rating) || rating < 1 || rating > 5) {
+    alert("Please enter a valid review and a rating between 1 and 5.");
+    return;
+  }
+
+  const newReview = {
+    text,
+    rating
+  };
+
+  try {
+    await updateDoc(supplierRef, {
+      reviews: arrayUnion(newReview)
+    });
+
+    alert("Thank you for your review!");
+    reviewForm.reset();
+    loadReviews();
+  } catch (error) {
+    console.error("Error adding review:", error);  // <--- ADD THIS
+    alert("Error submitting review. Please try again.");
+  }
+});
+
+
+  loadSupplierDetails();
+  loadReviews();
+</script>
+
+</body>
+</html>
